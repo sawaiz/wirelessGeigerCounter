@@ -1,0 +1,33 @@
+\documentclass[10pt]{Article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Sawaiz Syed}
+\title{Design of networked radiation sensor for production}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The device will be designed to be low cost, easily disputable, and network attached to provide a mass amount of radiation readings to examine meteorological effects on radiation counts.
+\end{abstract}
+
+\section{Introduction}
+Cosmic ray radiation from outside our solar system are powerful Gama rays that disperse after hitting out atmosphere. These can have effects ranging from electronic errors, to health effects for aviation and space travel personnel.
+
+The sensors currently available for radiation detection are expensive, devices made once with limited documentation to how they work, and are used. They provide a very small set of data, and at only a single location, generally inside a climate controlled lab. The devices are designed without the consideration of making more devices, and creating additional devices adds greatly to both the cost and time. By setting the design goal to foremost be low cost with respect to mass production, the devices created will provide a lot more data than is provided by the limited amount of detectors currently available to researchers.
+
+\section{Approach}
+The methods taken to design a embedded system (a computing device with a specific function) is a collaboration between both the hardware and software portion of the device. Both should be designed synchronously to provide optimal work flow. Prototyping will occur on a breadboard with through hole parts but the design will be optimized for surface mount components as they will reduce production costs. The software package for electrical design will be Eagle Cad for circuit board layout and design. The software will be compiled using the Arduino IDE to aid in future maintenance and hosted publicly to adhere to open hardware standards.
+
+The parts selection will dictate the software design. The major components will be the microprocessor (the programmed computing device), a wireless transmission module, a high voltage supply for the Geiger-Muller tube, and assorted sensors. The sensor will be designed to work in a mesh environment, where multiple sensing nodes are connected to a central relay node that aggregates the data and sends it either to other relays or over the internet to a data collection server.
+
+The software will be designed to wait for a reading from the Gieger tube and then take readings from all the sensors, and then transmit the data to the receiver node.
+
+\section{Results}
+A device prototype including software, hardware, and physical casing, and documentation. All the items and documentation required to bring the item into production. The data received from the finished product will be, a timestamp of the radiation reading, location, and weather/meteorological readings.
+
+\section{Conclusion}
+The hardware will help provide a much broader set of data than what the researchers currently have access to. The low cost focus will allow mass deployment at a reasonable cost. The base system could then be expanded to create 3D radiation telescopes (multiple sensors that give a rough vector direction and velocity of the particle and other more complex instrumentation. 
+
+\end{document}

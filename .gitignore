@@ -1,0 +1,12 @@
+*.aux
+*.log
+*.gz
+*.bbl
+*.blg
+*.o
+*.d
+*.eep
+*.elf
+*.hex
+*.lss
+*.srec

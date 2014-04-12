@@ -1,0 +1,174 @@
+\documentclass[10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\author{Sawaiz Syed}
+\title{Methods}
+\begin{document}
+\maketitle
+
+\section{Methods}
+The construction of this sensor will follow a hardware driven methodology
+as cost is the major factor in determination of components and functionality.
+Everything will be built in a modular fashion to make expansions and future
+development simple. The components will be designed in sections talking in power
+and signals, or outputting data. 
+
+\subsection{Hardware}
+The general build of the hardware will consist of a microcontroller, the acting 
+processor, executing code based on inputs and outputs attached. There will be 
+sensor attached to multiple pins including temperature, humidity, light, and 
+location sensors. The high voltage power supply tuned to hold the a Geiger 
+tube at its operating voltage. A sector for collecting and storing power, and 
+finally a wireless transmitter. 
+
+\subparagraph{Microcontroller}
+The selection of the microcontroller is the factor the rest of the project
+will be constructed around. The prototypes were initially made from the ATtiny13A
+made by Atmel. It is a eight pin device in package sizes down to $3mm \times3 mm$. 
+It was chosen for its low cost, and personal experience with the Atmel's offerings.
+As pins ran out and additional functionality was needed, an upgrade to ATtiny24 was
+in order, it provided six additional sensor and communication pins. The programming is
+done though C and/or Avr assembly, a lower level interface for faster operations.
+
+The receiver is mainly being designed for testing, and will be made in the Arduino 
+(a popular prototyping platform based on Atmel microcontrolers) and programmed in C++ 
+for quicker prototyping.
+
+\subparagraph{Wireless}
+The wireless system will consist of a transmitter on the sensing device communicating at
+either 433 MHz or 915 MHz as those are the legal ISM (Industrial, Scientific, Manufacturing) 
+frequencies in most of the world. Another option would be the 2.4GHz band, but with a lower 
+penetration and a more congested frequency it is a worse option, the lower frequencies have 
+enough bandwidth. These bands are FCC compliant to keep certification simple, and the 
+transmitter will be using a trace antenna, one that resides only on the circuit board, to 
+keep costs low.
+
+\subparagraph{Sensors}
+The main requirement of the device is to sense radioactive particles, so a 
+Geiger M\"{u}ller tube will be used, the SBM-20 shown in Figure~\ref{sbm20}, a 
+Russian tube designed for detecting Hard Beta, and Gama rays. With a manageable 
+recommended voltage of 400 V, pulse life of $2 \times 10^{10}$, and ease of 
+availability, makes it a great choice \cite{Bodunova-Skvortsova}. Other sensors 
+such as a temperature, humidity, and light will be added to provide ambient 
+information. GPS sensors will be designed as an expansion module for devices 
+that are expected to have changed position after installation, such as those 
+on rail.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.5\textwidth]{sbm20}
+  \caption{SBM-20 Geiger Muller Tubes \cite{Bodunova-Skvortsova} \label{sbm20}}
+\end{figure}
+
+\subparagraph{Power}
+Power to the unit will be provided through a lithium ion 3.7V (nominal) battery such 
+as those common in consumer electronics. Its safety will be manged by a charging and 
+protection chip which will be able to monitor current draw, and provide recharging power 
+through a solar panel attached outside the enclosure. The high voltage supply will be a 
+simple boost converter (a circuit that uses the voltage rise in inductors to generate 
+higher voltages) tuned to the 400V required for the Geiger tube.
+
+\subparagraph{Casing}
+Enclosure design will be based around PVC pipe for lower volume and injection molded 
+ABS for higher volumes. The pipe is conducive to the long components that take the majority
+of the volume of the design. The Tube, and the battery will stack vertically with PCB 
+(printed circuit board layers) in the middle very similar to Cordwood construction 
+,exampled in Figure~\ref{cordwood}, previously used in missile and telemetry systems 
+where space was at a premium. These layers will be connected with long strips of PCB 
+material connecting them top provide rigidity and structure and act as power lines. 
+The ABS design will be based on ease of mounting and identification of the modules. 
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.7\textwidth]{cordwoodcircuit}
+  \caption{A circuit built with stacked PCB \cite{ArnoldReinhold} \label{cordwood}}
+\end{figure}
+
+\subsection{Software}
+
+Software will be programed in AVR C for the transmitter and C++ and Java for the receiver 
+for quicker prototyping. Code flow with be dependent on incoming pulses form the radiation 
+detector. Upon receiving the microcontroller will cycle through it's duties shown in 
+Figure~\ref{structure} before returning to sleep(the low power mode).
+
+\begin{figure}[h]
+	\centering
+	  
+	\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+	    text width=5em, text centered, rounded corners, minimum height=4em]
+	\tikzstyle{line} = [draw, -latex']
+	    
+	\begin{tikzpicture}[node distance = 3cm, auto]
+		
+		\node [block] (interupt) {Pin Change Interupt};
+		\node [block , right of=interupt] (sensor) {Read Sensors};
+		\node [block , right of=sensor] (encode) {Encode data};
+		\node [block , below of=encode] (transmit) {Transmit Data};
+		\node [block , left of=transmit] (sleep) {Sleep};
+		
+		\path [line] (interupt)--(sensor);
+		\path [line] (sensor)--(encode);
+		\path [line] (encode)--(transmit);
+		\path [line] (transmit)--(sleep);
+		\path [line] (sleep)-|(interupt);
+		
+	\end{tikzpicture}
+	 \caption{Software Structure \label{structure}}
+\end{figure}
+
+\subparagraph{Encoding}
+The receivers auto gain control adjusts to ambient noise level. This means the gain must be
+reduced before the first byte can be transmitted. There is a pulse train of square waves 
+one unit width in timing that are transmitted before any messages to reduce gain and 
+therefore interference. Then a synchronization pulse is sent so the receiver knows where 
+to begin timing. The data is sent in a Manchester encoding style as recommended in RF 
+Monolithic guide \cite{RFMonolithics}. This forces the output pin to not remain in one state 
+for too long causing the gain to not fluctuate as much as it might otherwise by sending 
+the inverse of the previous bit for one unit, see Figure~\ref{manchester} as reference. The 
+encoded data to send will include ID of the unit (set at  install), the readings from the 
+sensors, and calculated parity bits to verify data on the receiving end.
+
+\begin{figure}[h]
+	\begin{tikztimingtable}
+		Gain Setting						& 20{1C} G\\
+		Synchronization Pulse               & L 20H L \\
+		Sending 0 (0x00)       		        & LHLHLHLHLHLHLH \\
+		Sending L (0x4C)       		        & HLLHLHHLHLLHLH \\
+		Sending 255 (0xFF)					& HLHLHLHLHLHLHL \\
+\end{tikztimingtable}
+	\caption{Timing Tables of transmitting pulses \label{manchester}}
+\end{figure}
+\subsection{Testing}
+The devices will be range tested at distances of up to 100m for both data integrity, and verification that the majority of pulses that occur are received. With the solar panel, discharge rate and recharging time will be addressed to verify that device will remain 
+operable over its lifespan.
+
+\subsection{Production}
+Designing for production requires more forethought than when building a one off system.
+
+\subparagraph{Scaling}
+The quantity is the major determinate in at what cost you can build your devices. 
+Component selection is important as slight cost increases trickle to larger costs. 
+The cost assembly and shipping become major expenditures as with smaller runs, the designer
+does assembly and shipping is consider to be nominal as it only occurs once. Another 
+important aspect during scaling is to consider time required between each step, different 
+fabrication facilities have varying fulfillment times.
+
+\subparagraph{Documentation}
+Documenting work for future development will be done though a document that explains 
+the use and modifications required for it to fit the purpose. The hardware will have 
+3D models created for it during development and those will provide diagrams and 
+animations for documentation.
+
+\pagebreak
+\bibliographystyle{plain}
+\bibliography{RadiationSensor}
+
+\end{document}
