@@ -209,7 +209,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x34a
+.text           0x00000000      0x34e
  *(.vectors)
  .vectors       0x00000000       0x2a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr25/tiny-stack/crttn2313a.o
                 0x00000000                __vector_default
@@ -297,64 +297,64 @@ END GROUP
  .text.interupt_init
                 0x000000b8       0x14 1975 Greifswald.o
                 0x000000b8                interupt_init
- .text.main     0x000000cc       0x62 1975 Greifswald.o
+ .text.main     0x000000cc       0x66 1975 Greifswald.o
                 0x000000cc                main
  .text.nrf24_init
-                0x0000012e        0xc nrf24.o
-                0x0000012e                nrf24_init
+                0x00000132        0xc nrf24.o
+                0x00000132                nrf24_init
  .text.spi_transfer
-                0x0000013a       0x5c nrf24.o
-                0x0000013a                spi_transfer
+                0x0000013e       0x5c nrf24.o
+                0x0000013e                spi_transfer
  .text.nrf24_transmitSync
-                0x00000196       0x28 nrf24.o
-                0x00000196                nrf24_transmitSync
+                0x0000019a       0x28 nrf24.o
+                0x0000019a                nrf24_transmitSync
  .text.nrf24_configRegister
-                0x000001be       0x22 nrf24.o
-                0x000001be                nrf24_configRegister
+                0x000001c2       0x22 nrf24.o
+                0x000001c2                nrf24_configRegister
  .text.nrf24_powerUpRx
-                0x000001e0       0x22 nrf24.o
-                0x000001e0                nrf24_powerUpRx
+                0x000001e4       0x22 nrf24.o
+                0x000001e4                nrf24_powerUpRx
  .text.nrf24_config
-                0x00000202       0x58 nrf24.o
-                0x00000202                nrf24_config
+                0x00000206       0x58 nrf24.o
+                0x00000206                nrf24_config
  .text.nrf24_powerUpTx
-                0x0000025a        0xe nrf24.o
-                0x0000025a                nrf24_powerUpTx
+                0x0000025e        0xe nrf24.o
+                0x0000025e                nrf24_powerUpTx
  .text.nrf24_send
-                0x00000268       0x36 nrf24.o
-                0x00000268                nrf24_send
+                0x0000026c       0x36 nrf24.o
+                0x0000026c                nrf24_send
  .text.nrf24_writeRegister
-                0x0000029e       0x2e nrf24.o
-                0x0000029e                nrf24_writeRegister
+                0x000002a2       0x2e nrf24.o
+                0x000002a2                nrf24_writeRegister
  .text.nrf24_rx_address
-                0x000002cc       0x1c nrf24.o
-                0x000002cc                nrf24_rx_address
+                0x000002d0       0x1c nrf24.o
+                0x000002d0                nrf24_rx_address
  .text.nrf24_tx_address
-                0x000002e8       0x1c nrf24.o
-                0x000002e8                nrf24_tx_address
+                0x000002ec       0x1c nrf24.o
+                0x000002ec                nrf24_tx_address
  .text.nrf24_setupPins
-                0x00000304        0xc radioPinFunctions.o
-                0x00000304                nrf24_setupPins
+                0x00000308        0xc radioPinFunctions.o
+                0x00000308                nrf24_setupPins
  .text.nrf24_ce_digitalWrite
-                0x00000310        0xc radioPinFunctions.o
-                0x00000310                nrf24_ce_digitalWrite
+                0x00000314        0xc radioPinFunctions.o
+                0x00000314                nrf24_ce_digitalWrite
  .text.nrf24_csn_digitalWrite
-                0x0000031c        0xc radioPinFunctions.o
-                0x0000031c                nrf24_csn_digitalWrite
+                0x00000320        0xc radioPinFunctions.o
+                0x00000320                nrf24_csn_digitalWrite
  .text.nrf24_sck_digitalWrite
-                0x00000328        0xc radioPinFunctions.o
-                0x00000328                nrf24_sck_digitalWrite
+                0x0000032c        0xc radioPinFunctions.o
+                0x0000032c                nrf24_sck_digitalWrite
  .text.nrf24_mosi_digitalWrite
-                0x00000334        0xc radioPinFunctions.o
-                0x00000334                nrf24_mosi_digitalWrite
+                0x00000338        0xc radioPinFunctions.o
+                0x00000338                nrf24_mosi_digitalWrite
  .text.nrf24_miso_digitalRead
-                0x00000340        0x6 radioPinFunctions.o
-                0x00000340                nrf24_miso_digitalRead
-                0x00000346                . = ALIGN (0x2)
+                0x00000344        0x6 radioPinFunctions.o
+                0x00000344                nrf24_miso_digitalRead
+                0x0000034a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000346        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25/tiny-stack\libgcc.a(_exit.o)
-                0x00000346                _exit
-                0x00000346                exit
+ .fini9         0x0000034a        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25/tiny-stack\libgcc.a(_exit.o)
+                0x0000034a                _exit
+                0x0000034a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -373,11 +373,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000346        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25/tiny-stack\libgcc.a(_exit.o)
+ .fini0         0x0000034a        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25/tiny-stack\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000034a                _etext = .
+                0x0000034e                _etext = .
 
-.data           0x00800060        0xa load address 0x0000034a
+.data           0x00800060        0xa load address 0x0000034e
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr25/tiny-stack/crttn2313a.o
@@ -413,8 +413,8 @@ END GROUP
  COMMON         0x00800070        0x1 nrf24.o
                 0x00800070                payload_len
                 0x00800071                PROVIDE (__bss_end, .)
-                0x0000034a                __data_load_start = LOADADDR (.data)
-                0x00000354                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000034e                __data_load_start = LOADADDR (.data)
+                0x00000358                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800071        0x0
                 0x00800071                PROVIDE (__noinit_start, .)
@@ -506,11 +506,11 @@ END GROUP
  .debug_abbrev  0x0000018e      0x221 nrf24.o
  .debug_abbrev  0x000003af       0x90 radioPinFunctions.o
 
-.debug_line     0x00000000      0x54e
+.debug_line     0x00000000      0x54f
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x19a 1975 Greifswald.o
- .debug_line    0x0000019a      0x29e nrf24.o
- .debug_line    0x00000438      0x116 radioPinFunctions.o
+ .debug_line    0x00000000      0x19b 1975 Greifswald.o
+ .debug_line    0x0000019b      0x29e nrf24.o
+ .debug_line    0x00000439      0x116 radioPinFunctions.o
 
 .debug_frame    0x00000000      0x344
  *(.debug_frame)

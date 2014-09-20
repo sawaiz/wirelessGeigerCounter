@@ -51,6 +51,7 @@ void interupt_init(){
 
 int main(){
 	DDRB |= 1<<PORTB3;
+	PORTB = 1<<PORTB3;
 	
 	/* init hardware pins */
 	nrf24_init();
@@ -77,6 +78,6 @@ int main(){
 // 		/* Wait for transmission to end */
 // 		while(nrf24_isSending());
 		
-		_delay_ms(10000);
+		_delay_ms(1000);
 	}
 }
