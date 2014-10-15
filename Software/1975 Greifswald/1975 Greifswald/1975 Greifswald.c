@@ -6,7 +6,7 @@
  */ 
 
 #define F_CPU 1000000UL
-#define deviceID 0xF0
+#define deviceID 0xCC
 
 #include <avr/io.h>
 #include <util/delay.h>
