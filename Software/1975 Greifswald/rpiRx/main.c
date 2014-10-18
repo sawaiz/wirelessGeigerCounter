@@ -4,23 +4,28 @@
 //And possibly Do some good with it
 //
 //compile with
-// gcc -o blink main.c -l bcm2835
-// sudo ./blink
+// gcc -o main main.c nrf24.c radioPinFunctions.c -l bcm2835
+// sudo ./main
 //
 //Maybe I even need to include
 //NRF in that statement
 
 #include <bcm2835.h>
 #include <stdio.h>
+#include <stdint.h>
 #include "nrf24.h"
 
-uint8_t temp;
-uint8_t q = 0;
-uint8_t data_array[4];
-uint8_t tx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
-uint8_t rx_address[5] = {0xD7,0xD7,0xD7,0xD7,0xD7};
+int main(int argc, char **argv){
 
-int main(){
+    printf("testing?");
+
+    uint8_t data_array[4];
+    uint8_t tx_address[5] = {0xE7,0xE7,0xE7,0xE7,0xE7};
+    uint8_t rx_address[5] = {0xD7,0xD7,0xD7,0xD7,0xD7};
+
+    if (!bcm2835_init())
+        return 1;
+
     /* init hardware pins */
     nrf24_init();
 
@@ -41,7 +46,9 @@ int main(){
             data_array[0],
             data_array[1],
             data_array[2],
-            data_array[3];)
+            data_array[3]);
         }
     }
+    bcm2835_close();
+    return 0;
 }

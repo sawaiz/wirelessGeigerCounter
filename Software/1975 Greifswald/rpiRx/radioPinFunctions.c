@@ -15,23 +15,23 @@
 #define clr_bit(PIN) bcm2835_gpio_write(PIN, LOW)
 #define check_bit(PIN) bcm2835_gpio_lev(PIN)
 
-#define CE RPI_V2_GPIO_P1_08
-#define CSN RPI_V2_GPIO_P1_07
-#define SCK RPI_V2_GPIO_P1_11
-#define MOSI RPI_V2_GPIO_P1_10
-#define MISO RPI_V2_GPIO_P1_09 
+#define CE RPI_V2_GPIO_P1_24
+#define CSN RPI_V2_GPIO_P1_26
+#define SCK RPI_V2_GPIO_P1_23
+#define MOSI RPI_V2_GPIO_P1_19
+#define MISO RPI_V2_GPIO_P1_21 
 
 /* ------------------------------------------------------------------------- */
 void nrf24_setupPins()
 {
-    if (!bcm2835_init())
-        return 1;
+//    if (!bcm2835_init())
+//        return 1;
 
-    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP); // CE output
-    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP); // CSN output
-    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP); // SCK output
-    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP); // MOSI output
-    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_INPT); // MISO input
+    bcm2835_gpio_fsel(CE, BCM2835_GPIO_FSEL_OUTP); // CE output
+    bcm2835_gpio_fsel(CSN, BCM2835_GPIO_FSEL_OUTP); // CSN output
+    bcm2835_gpio_fsel(SCK, BCM2835_GPIO_FSEL_OUTP); // SCK output
+    bcm2835_gpio_fsel(MOSI, BCM2835_GPIO_FSEL_OUTP); // MOSI output
+    bcm2835_gpio_fsel(MISO, BCM2835_GPIO_FSEL_INPT); // MISO input
 }
 /* ------------------------------------------------------------------------- */
 void nrf24_ce_digitalWrite(uint8_t state)

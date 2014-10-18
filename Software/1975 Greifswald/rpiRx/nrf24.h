@@ -17,6 +17,8 @@
 #include "nRF24L01.h"
 #include <stdint.h>
 
+#undef LOW
+#undef HIGH
 #define LOW 0
 #define HIGH 1
 
