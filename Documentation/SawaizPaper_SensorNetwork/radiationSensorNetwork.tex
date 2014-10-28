@@ -188,9 +188,11 @@ Keyword1 \sep Keyword2 \sep Keyword3
 \label{intro}
 
 
+
 \section{Sensor Node Design and Implementation}
 
 A sensor node consists of a radiation sensor (i.e. Geiger tube), a power supply unit and readout circuit, a microcontroller and a wireless transceiver as shown in Figure~\ref{fig:sensorNode}.  The microcontroller is a 8-bit RISC-based AVR (ATtiny2313) made by Atmel and is programed in C for controlling Geiger tube high voltage, signal readout and wireless communication.
+
 \begin{figure}[h]
 \begin{center}
 %\includegraphics*[width=9.cm]{bessel1}\\
@@ -202,6 +204,7 @@ Sensor node assembly}
 \end{figure}
 
 In the current design, we pick a Geiger tube (SBM-20) made by VNIITFA company in Russia. The stainless steel Geiger tube is filled with a mixture of Ne + Br$_2$ + Ar gases and has a dimension of 108 mm in length and 11 mm in diameter. Its operating high voltage is 350 - 475 volts (the recommended voltage is 400 volts). The tube life is about at least $2\times10^{10}$ pulses and has a dead time of 190 $\mu$s.  The Geiger tube high voltage power supply is deigned as a DC-to-DC boost converter as shown in Figure~\ref{fig:GTpower} for reducing both the cost and physical dimensions. The high voltage output can be program with the onboard microcontroller (ATtiny2313). 
+
 %\subsection{Geiger-tube }
 \begin{figure}[h]
 \begin{center}
@@ -248,13 +251,13 @@ Digital signal output}
 \end{figure}
 
 \section{Receiver Node Design and Implementation}
-The receiver node consists of the same wireless transceiver and a host computer (i.e., Raspberry PI). 
+The receiver node consists of the same wireless transceiver and a host computer (i.e., Raspberry PI). An updated installation of Arch Linux and the "bcm2835" class (required for communication of GPIO pins) and the SPI connection seen in Figure~\ref{fig:rPiSPI} allow the mini computer to receive data. 
 \begin{figure}
 \begin{center}
 %\includegraphics*[width=9.cm]{bessel1}\\
 \includegraphics*[width=8.cm]{SchematicImages/RPI_Wireless.jpg}
 \caption{Wireless module interface with Raspberry PI.}
-\label{fig:generic}
+\label{fig:rPiSPI}
 \end{center}
 \end{figure}
 
