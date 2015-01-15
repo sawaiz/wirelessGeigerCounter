@@ -10,3 +10,4 @@
 *.hex
 *.lss
 *.srec
+.DS_Store
