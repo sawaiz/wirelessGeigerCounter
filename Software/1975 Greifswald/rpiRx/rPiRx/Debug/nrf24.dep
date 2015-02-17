@@ -1,0 +1,11 @@
+Debug/nrf24.o: nrf24l01/nrf24.c \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\stdc-predef.h \
+ nrf24l01/nrf24.h nrf24l01/nRF24L01.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.9\include\stdint.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\stdint.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\features.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf\sys\cdefs.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf\bits\wordsize.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf\gnu\stubs.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf\gnu\stubs-hard.h \
+ c:\linux\raspberrypi\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf\bits\wchar.h

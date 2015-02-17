@@ -7,10 +7,12 @@ int
 main (void)
 {
 	DDRA |= _BV(DDA1);
+	DDRA |= _BV(DDA0);
 	
 	while(1)
 	{
-		PORTB ^= _BV(PA1);
-		_delay_ms(1000);
+		PORTA ^= _BV(PA0);
+		PORTA ^= _BV(PA1);
+		_delay_ms(100);
 	}
 }
