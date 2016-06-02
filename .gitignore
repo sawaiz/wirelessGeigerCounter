@@ -1,7 +1,6 @@
 *.gbr
 *.lck
 *.aux
-
 *.log
 *.gz
 *.bbl
@@ -14,3 +13,7 @@
 *.lss
 *.srec
 .DS_Store
+*.o
+*.elf
+*.hex
+*.map
