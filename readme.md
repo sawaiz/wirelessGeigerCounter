@@ -29,3 +29,5 @@ The software only resides on the microcontroller, and can be found [here](https:
 [oldPrototypes]: cad/renderings/oldPrototypes.jpg "Older prototypes"
 [assembledTube]: cad/renderings/assembledTube.png "Fully Assembled Tube"
 [labeledSections]: cad/renderings/labeledSections.png "Assembled Tube"
+## Firmware for the built V6 boards
+The boards in the 2014 photos (ATtiny2313 + nRF24 + SBM-20) run [`firmware/v6-ble`](firmware/v6-ble): BLE advertisements with device ID and CPM once a minute, original HV PWM kept on PB2. That is a different generation than the ESP8266 firmware in [geigerControl](https://github.com/Sawaiz/geigerControl).
