@@ -8,7 +8,7 @@ Built size (avr-gcc, `-Os`, attiny2313): **986 bytes flash / 10 bytes SRAM** of 
 
 ## What the node does
 
-1. Timer0 Fast PWM on PB2 runs continuously (original MCU HV pump, `OCR0A = 125`, "Set to 400V"). Why it stays on is a hardware question; see the root README.
+1. Timer0 Fast PWM on PB2 runs continuously. On V6 that **is** the HV pump (`OCR0A = 125`, "Set to 400V"). Power-down would stop it. See the root README for V6 vs the V7 555 schematic.
 2. Each falling edge on PD2 (INT0) is one GM pulse. The impulse stage is an NPN that pulls the line low.
 3. The MCU idles. Timer1 ticks 1 Hz. After 60 s it snapshots the pulse count (that number *is* CPM) and clears the counter without dropping counts that arrive during the radio burst.
 4. The nRF24 wakes, sends the same non-connectable BLE advertisement on channels 37, 38, and 39, then goes to POWER_DOWN again.
@@ -41,7 +41,7 @@ F_CPU = 1000000UL
 
 ## High voltage PWM
 
-The V6 schematic has an ICM7555 boost. This firmware still drives Timer0 on PB2 because the 2014 TX did, and there is no `.dip` to prove PB2 is disconnected:
+V6 pumps HV from Timer0 on PB2 (`HV PWM` on that schematic). The 555 lives on the **V7** file in `pcb/schematic.dch`, not on the purple sticks. `bf09a87` used `OCR0A = 127`; this tree uses 125.
 
 ```c
 TCCR0A = WGM00 | WGM01 | COM0A1;  /* Fast PWM, non-inverting OC0A */
@@ -52,7 +52,7 @@ DDRB  |= PB2;
 
 That is `hv_pwm_init()`, setpoint `HV_PWM_OCR`. Frequency = F_CPU / 256 ≈ **3.91 kHz**. Duty 125/256 ≈ **48.8%**.
 
-Because Timer0 must keep running, the chip uses **`SLEEP_MODE_IDLE`**, not power-down. Power-down would stop the PWM and collapse HV if PB2 is the pump.
+Because Timer0 must keep running, the chip uses **`SLEEP_MODE_IDLE`**, not power-down. Power-down would stop the PWM and collapse HV.
 
 Tune in `main.c`:
 
@@ -62,7 +62,7 @@ Tune in `main.c`:
 #define REPORT_SECONDS 60u
 ```
 
-Measure tube voltage before changing this. Board-level HV (555, inductor, Q1, trim) is in the root README.
+Board-level HV (inductor, Q1, V6 vs V7) is in the root README.
 
 ## Pulse counting
 
@@ -104,7 +104,7 @@ Grinberg's BLE encode is **non-commercial** unless you get his permission.
 
 ## Power (firmware)
 
-HV stays on, so the chip idles rather than powering down. nRF is POWER_DOWN between ads (~1 µA plus three 1 Mbps packets per minute). Watchdog is 2 s, petted from the 1 Hz ISR. Cell capacity and 555 draw are in the root README (VL621, hours not months).
+HV stays on, so the chip idles rather than powering down. nRF is POWER_DOWN between ads (~1 µA plus three 1 Mbps packets per minute). Watchdog is 2 s, petted from the 1 Hz ISR. Cell (VL621, 3.0 V) is in the root README. Capacity is not in the CAD.
 
 ## Build and flash
 
