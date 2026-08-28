@@ -1,6 +1,6 @@
 # V6 BLE Geiger firmware
 
-Firmware for the **built TransmitterPCB V6** boards. Hardware, schematic, pinout, HV, and known board issues live in the [root README](../../readme.md).
+Firmware for **TransmitterPCB V6**. Hardware source of truth is [`pcb/v6/`](../../pcb/v6/) (git `fbc6006:PCB/TX/`) plus `bf09a87` `code/avrTx`. Board writeup: [root README](../../readme.md). Do not use `pcb/schematic.dch` (that is V7, 555 + QFN).
 
 This tree is not the ESP8266 / Wi-Fi firmware in [geigerControl](https://github.com/Sawaiz/geigerControl), and it is not the old Nordic ShockBurst link to a Raspberry Pi. The same nRF24 spoofs a Bluetooth LE advertisement so a phone can read device ID and counts without a custom receiver.
 
@@ -8,7 +8,7 @@ Built size (avr-gcc, `-Os`, attiny2313): **986 bytes flash / 10 bytes SRAM** of 
 
 ## What the node does
 
-1. Timer0 Fast PWM on PB2 runs continuously. On V6 that **is** the HV pump (`OCR0A = 125`, "Set to 400V"). Power-down would stop it. See the root README for V6 vs the V7 555 schematic.
+1. Timer0 Fast PWM on PB2 runs continuously. On V6 that **is** the HV pump (`OCR0A = 127` in avrTx.c, "Set to 400V"). Power-down would stop it.
 2. Each falling edge on PD2 (INT0) is one GM pulse. The impulse stage is an NPN that pulls the line low.
 3. The MCU idles. Timer1 ticks 1 Hz. After 60 s it snapshots the pulse count (that number *is* CPM) and clears the counter without dropping counts that arrive during the radio burst.
 4. The nRF24 wakes, sends the same non-connectable BLE advertisement on channels 37, 38, and 39, then goes to POWER_DOWN again.
@@ -41,34 +41,34 @@ F_CPU = 1000000UL
 
 ## High voltage PWM
 
-V6 pumps HV from Timer0 on PB2 (`HV PWM` on that schematic). The 555 lives on the **V7** file in `pcb/schematic.dch`, not on the purple sticks. `bf09a87` used `OCR0A = 127`; this tree uses 125.
+V6 pumps HV from Timer0 on PB2 (schematic port **HV PWM**, `pcb/v6/schematic.dch`). No 555 on V6. Same as `bf09a87` `pwm_init()`:
 
 ```c
 TCCR0A = WGM00 | WGM01 | COM0A1;  /* Fast PWM, non-inverting OC0A */
 TCCR0B = CS00;                    /* no prescale */
-OCR0A  = 125;                     /* "Set to 400V" */
+OCR0A  = 127;                     /* "Set to 400V" */
 DDRB  |= PB2;
 ```
 
-That is `hv_pwm_init()`, setpoint `HV_PWM_OCR`. Frequency = F_CPU / 256 ≈ **3.91 kHz**. Duty 125/256 ≈ **48.8%**.
+That is `hv_pwm_init()`, setpoint `HV_PWM_OCR`. Frequency = F_CPU / 256 ≈ **3.91 kHz**. Duty 127/256 ≈ **49.6%**.
 
 Because Timer0 must keep running, the chip uses **`SLEEP_MODE_IDLE`**, not power-down. Power-down would stop the PWM and collapse HV.
 
 Tune in `main.c`:
 
 ```c
-#define HV_PWM_OCR     125u
+#define HV_PWM_OCR     127u
 #define DEVICE_ID      0x33
 #define REPORT_SECONDS 60u
 ```
 
-Board-level HV (inductor, Q1, V6 vs V7) is in the root README.
+Parts (STN2580, RS1M, 10 mH SDR1005) are in `pcb/v6/bom.xlsx` and the root README.
 
 ## Pulse counting
 
 INT0 falling edge, one increment per ISR. 16-bit `pulses` is `volatile`; the reporter does `cli(); n = pulses; pulses = 0; sei();` so a pulse during the BLE burst lands in the next minute instead of being dropped.
 
-Analog front-end (2N3904, 22 k / 100 k / 10 k, 220 pF) is in the root README. This firmware does not correct SBM-20 dead time. Ads send raw CPM, not µSv/h.
+Analog front-end (MMBT3904, 22 k / 100 k / 10 k, 220 pF) is in the root README. This firmware does not correct SBM-20 dead time. Ads send raw CPM, not µSv/h.
 
 ## BLE advertisement (the nRF24 hack)
 
@@ -104,7 +104,7 @@ Grinberg's BLE encode is **non-commercial** unless you get his permission.
 
 ## Power (firmware)
 
-HV stays on, so the chip idles rather than powering down. nRF is POWER_DOWN between ads (~1 µA plus three 1 Mbps packets per minute). Watchdog is 2 s, petted from the 1 Hz ISR. Cell (VL621, 3.0 V) is in the root README. Capacity is not in the CAD.
+HV stays on, so the chip idles rather than powering down. nRF is POWER_DOWN between ads (~1 µA plus three 1 Mbps packets per minute). Watchdog is 2 s, petted from the 1 Hz ISR. Power: schematic VL621 symbol, BOM 2×AA holder (`BC12AAL`). See root README.
 
 ## Build and flash
 
@@ -128,6 +128,9 @@ firmware/v6-ble/
   Makefile         attiny2313, hex, flash, fuses
   geiger_ble.hex   prebuilt
   README.md        this file
+
+pcb/v6/            V6 schematic, layout, BOM (use these, not pcb/schematic.dch)
+
 ```
 
 ## Limitations

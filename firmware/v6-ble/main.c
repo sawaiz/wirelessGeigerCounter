@@ -1,16 +1,15 @@
 /*
  * V6 Geiger transmitter: nRF24L01+ BLE advertisements
  *
- * Hardware: ATtiny2313 + nRF24L01+ + SBM-20 (TransmitterPCB V6)
- * Pinout from the last working firmware (commit bf09a87).
+ * Hardware: TransmitterPCB V6 (pcb/v6/, commit fbc6006).
+ * Pinout and HV PWM from last working TX (bf09a87 code/avrTx).
  *
  * Each minute the node broadcasts a non-connectable BLE advertisement
  * with device ID and the pulse count for that window (CPM).
  *
- * High voltage: Timer0 Fast PWM on OC0A/PB2, same as the original
- * avrTx / Greifswald code (OCR0A ~125 was "400 V"). The 555 on the
- * schematic can coexist; PWM is kept because those boards worked with
- * it. PWM must keep running, so the MCU idles rather than powering down.
+ * High voltage: Timer0 Fast PWM on OC0A/PB2. V6 schematic port HV PWM.
+ * No 555 on V6. OCR0A = 127 was "Set to 400V" in avrTx.c.
+ * PWM must keep running, so the MCU idles rather than powering down.
  *
  * BLE fakery after Dmitry Grinberg (non-commercial use; see README).
  */
@@ -26,7 +25,7 @@
 
 /* ---- board ---- */
 #define DEVICE_ID     0x33
-#define HV_PWM_OCR    125u      /* original "Set to 400V" */
+#define HV_PWM_OCR    127u      /* bf09a87 avrTx.c "Set to 400V" */
 #define REPORT_SECONDS 60u
 
 #define NRF_DDR_CE    DDRD
